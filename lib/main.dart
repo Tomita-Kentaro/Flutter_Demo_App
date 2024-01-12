@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
 
 class NotificationScreen extends StatelessWidget {
   final items = [['2024/01/01 11:00','aaaaaaaaaaaaaaaaaaaaa'],
-                ['2024/01/01 12:00','bbbbbbbbbbbbbbbbbbbbb'],
-                ['2024/01/01 13:00','cccccccccccccccccccccc']];
+                ['2024/01/02 12:00','bbbbbbbbbbbbbbbbbbbbb'],
+                ['2024/01/03 13:00','cccccccccccccccccccccc']];
 
   @override
   Widget build(BuildContext context) {
