@@ -42,14 +42,14 @@ class NotificationScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: items.length, // 通知の数に応じて変更してください
+              itemCount: items.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text('${items[index][0]}'),
                   subtitle: Text('${items[index][1]}'),
                   trailing: ElevatedButton(
                     onPressed: () {
-                      // ここに詳細ボタンを押したときのロジックを追加します
+                      // ここに詳細ボタンを押したときのロジックを追加する
                     },
                     child: Text('確認'),
                   ),
