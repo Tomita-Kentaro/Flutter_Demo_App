@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'notification.dart' as notif;
+import 'notification_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,46 +20,52 @@ class MyApp extends StatelessWidget {
 }
 
 class NotificationScreen extends StatelessWidget {
-  final items = [['2024/01/01 11:00','aaaaaaaaaaaaaaaaaaaaa'],
-                ['2024/01/02 12:00','bbbbbbbbbbbbbbbbbbbbb'],
-                ['2024/01/03 13:00','cccccccccccccccccccccc']];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('new Notification'),
       ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Alert List',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('${items[index][0]}'),
-                  subtitle: Text('${items[index][1]}'),
-                  trailing: ElevatedButton(
-                    onPressed: () {
-                      // ここに詳細ボタンを押したときのロジックを追加する
-                    },
-                    child: Text('確認'),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+      body: FutureBuilder<List<notif.Notification>>(
+        future: NotificationProvider.getNotifications(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.error != null) {
+            return Center(child: Text('No data available or an error occurred'));
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              final notification = snapshot.data![index];
+              return ListTile(
+                title: Text(notification.date),
+                subtitle: Text(notification.title),
+                trailing: ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(notification.title),
+                          content: Text(notification.message),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Text('確認'),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
