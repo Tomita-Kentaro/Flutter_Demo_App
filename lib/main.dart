@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'notification.dart' as notif;
 import 'notification_provider.dart';
+import 'screens/add_notification_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -67,6 +68,16 @@ class NotificationScreen extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => AddNotificationScreen()),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
+
+
